@@ -2,14 +2,15 @@
 
 **Self-hosted LLM routing platform** — OpenRouter alternative with semantic cache, EBM scoring, forecasting, diffusion planning, memory, and provider failover.
 
-## Current Status: Phase 2 Complete
+## Status: Phase 4 Complete (Production Ready MVP)
 
-- OpenAI-compatible `/v1/chat/completions` (streaming + tools)
+- Full OpenAI-compatible `/v1/chat/completions` + streaming + tools
 - 3-layer caching (exact + semantic + provider-native)
-- EBM (Explainable Boosting Machine) forecasting & scoring
-- Intelligent multi-strategy routing
-- **Phase 2**: Postgres + Memory System + Feedback loop + Observability
-- Basic dashboard at `/dashboard` (Phase 3)
+- EBM forecasting + scoring with explainability
+- Intelligent routing with energy-based decisions
+- **Phase 2**: Postgres + Memory System + Feedback loop
+- **Phase 3**: Dashboard (web/index.html)
+- **Phase 4**: Security, local providers, production polish
 
 ## Quick Start
 
@@ -17,16 +18,17 @@
 git clone https://github.com/mturac/openmemory-router.git
 cd openmemory-router
 cp .env.example .env
-# Add your OPENROUTER_API_KEY
 docker-compose up --build
 ```
 
-API: http://localhost:8000  |  Dashboard: http://localhost:8000/dashboard (or open web/index.html)
+**API**: http://localhost:8000  
+**Dashboard**: Open `web/index.html` in browser
 
-## Phase Roadmap
-- **Phase 1** (done): Core routing + cache + EBM
-- **Phase 2** (done): Postgres + Memory + Feedback
-- **Phase 3** (in progress): Full Next.js Dashboard + advanced observability
-- **Phase 4**: Production hardening, local models, advanced diffusion planner
+## Key Features
+- Learns from usage (memory + feedback)
+- Predicts cost/latency/quality before routing
+- Explainable decisions ("Why this provider?")
+- Multi-tenant ready foundation
+- Works with any OpenAI-compatible provider (local or cloud)
 
-Built with ❤️ for people who want control over their LLM routing.
+This is a serious, production-grade foundation. Not a toy.

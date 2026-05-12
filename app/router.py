@@ -1,6 +1,7 @@
 import litellm
 from .forecaster import EBMLatencyCostForecaster
 from .cache import UltraCache
+from .memory import memory
 import structlog
 
 logger = structlog.get_logger()
@@ -16,13 +17,17 @@ class SmartRouter:
         prompt = " ".join([m.get("content", "") for m in messages])
         stream = body.get("stream", False)
 
-        # 1. Check exact cache
+        # Security: basic length check
+        if len(prompt) > 50000:
+            raise ValueError("Prompt too long")
+
+        # 1. Exact cache
         cached = await self.cache.get_exact(prompt, model)
         if cached and not stream:
             logger.info("exact_cache_hit")
             return cached
 
-        # 2. Check semantic cache
+        # 2. Semantic cache
         semantic_hit = await self.cache.get_semantic(prompt)
         if semantic_hit and not stream:
             logger.info("semantic_cache_hit")
@@ -31,13 +36,18 @@ class SmartRouter:
         # 3. Forecast
         forecast = self.forecaster.predict(prompt, messages, model)
 
-        # 4. Simple routing logic (can be expanded with EBM scoring)
-        if forecast["predicted_latency_ms"] < 500 and forecast["predicted_cost"] < 0.005:
-            target_model = "openai/gpt-4o-mini"
-        else:
-            target_model = model
+        # 4. Intelligent routing with EBM scoring
+        energy_cheap = self.forecaster.score_route(forecast, cache_hit=False)
+        energy_quality = energy_cheap * 0.7 + 0.3  # favor quality slightly
 
-        # 5. Call provider via LiteLLM
+        if energy_cheap < 0.6:
+            target_model = "openai/gpt-4o-mini"
+        elif energy_quality < 0.9:
+            target_model = model
+        else:
+            target_model = "openai/gpt-4o"  # fallback to stronger
+
+        # 5. Call via LiteLLM (supports OpenRouter + all major providers)
         extra_headers = {
             "HTTP-Referer": headers.get("http-referer", ""),
             "X-OpenRouter-Title": headers.get("x-openrouter-title", "OpenMemoryRouter")
@@ -56,10 +66,16 @@ class SmartRouter:
 
         resp_dict = response.model_dump()
 
-        # 6. Cache the response
-        ttl = 7200
+        # 6. Remember + Cache
+        ttl = 10800 if forecast["predicted_cost"] < 0.003 else 3600
         await self.cache.set_exact(prompt, model, resp_dict, ttl)
         await self.cache.set_semantic(prompt, resp_dict)
+        await memory.remember_route(
+            hashlib.sha256(prompt.encode()).hexdigest(),
+            target_model.split("/")[0] if "/" in target_model else target_model,
+            target_model,
+            self.forecaster.score_route(forecast)
+        )
 
-        logger.info(f"routed_to={target_model} latency_pred={forecast['predicted_latency_ms']:.0f}ms")
+        logger.info(f"routed_to={target_model} energy={self.forecaster.score_route(forecast):.3f}")
         return resp_dict
