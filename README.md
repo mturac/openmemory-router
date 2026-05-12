@@ -1,18 +1,15 @@
 # OpenMemoryRouter
 
-**Self-hosted LLM routing platform** - OpenRouter alternative with semantic cache, EBM scoring, forecasting, diffusion planning, memory, and provider failover.
+**Self-hosted LLM routing platform** — OpenRouter alternative with semantic cache, EBM scoring, forecasting, diffusion planning, memory, and provider failover.
 
-## Features
-- OpenAI-compatible API (`/v1/chat/completions`)
-- Multi-provider support via LiteLLM (OpenAI, Anthropic, Groq, Gemini, etc.)
+## Current Status: Phase 2 Complete
+
+- OpenAI-compatible `/v1/chat/completions` (streaming + tools)
 - 3-layer caching (exact + semantic + provider-native)
-- EBM (Explainable Boosting Machine) for route scoring
-- Forecasting for cost, latency, quality
-- Intelligent routing with multiple strategies
-- Memory system for learning from usage
-- Feedback loop for continuous improvement
-- Streaming support
-- Tool calling passthrough
+- EBM (Explainable Boosting Machine) forecasting & scoring
+- Intelligent multi-strategy routing
+- **Phase 2**: Postgres + Memory System + Feedback loop + Observability
+- Basic dashboard at `/dashboard` (Phase 3)
 
 ## Quick Start
 
@@ -20,25 +17,16 @@
 git clone https://github.com/mturac/openmemory-router.git
 cd openmemory-router
 cp .env.example .env
-# Edit .env with your OPENROUTER_API_KEY
- docker-compose up --build
+# Add your OPENROUTER_API_KEY
+docker-compose up --build
 ```
 
-API will be available at http://localhost:8000
+API: http://localhost:8000  |  Dashboard: http://localhost:8000/dashboard (or open web/index.html)
 
-Test:
-```bash
-curl -X POST http://localhost:8000/v1/chat/completions \
-  -H "Authorization: Bearer $OPENROUTER_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"model": "openai/gpt-4o-mini", "messages": [{"role": "user", "content": "Hello"}]}'
-```
+## Phase Roadmap
+- **Phase 1** (done): Core routing + cache + EBM
+- **Phase 2** (done): Postgres + Memory + Feedback
+- **Phase 3** (in progress): Full Next.js Dashboard + advanced observability
+- **Phase 4**: Production hardening, local models, advanced diffusion planner
 
-## Architecture
-- FastAPI backend
-- LiteLLM for provider abstraction
-- Redis for hot cache and short-term memory
-- FAISS for semantic cache
-- EBM for explainable route scoring
-
-This is a production-ready foundation. Full monorepo with Next.js dashboard, Prisma, advanced diffusion planner, and more coming in next phases.
+Built with ❤️ for people who want control over their LLM routing.

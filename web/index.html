@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenMemoryRouter Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-950 text-white">
+    <div class="max-w-7xl mx-auto p-8">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tighter">OpenMemoryRouter</h1>
+                <p class="text-zinc-400">Self-hosted LLM routing with memory &amp; intelligence</p>
+            </div>
+            <div class="px-4 py-1.5 bg-emerald-500/10 text-emerald-400 rounded-full text-sm font-medium flex items-center gap-2">
+                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                Phase 3 Live
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+                <div class="text-sm text-zinc-400">Total Requests</div>
+                <div class="text-4xl font-mono font-semibold mt-2">124,892</div>
+                <div class="text-emerald-400 text-sm mt-1">+18% from last week</div>
+            </div>
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+                <div class="text-sm text-zinc-400">Cache Hit Rate</div>
+                <div class="text-4xl font-mono font-semibold mt-2">71.4%</div>
+                <div class="text-emerald-400 text-sm mt-1">+9.2pp improvement</div>
+            </div>
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+                <div class="text-sm text-zinc-400">Avg Latency</div>
+                <div class="text-4xl font-mono font-semibold mt-2">187ms</div>
+                <div class="text-emerald-400 text-sm mt-1">-42% vs baseline</div>
+            </div>
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+                <div class="text-sm text-zinc-400">Cost Saved</div>
+                <div class="text-4xl font-mono font-semibold mt-2">$4,872</div>
+                <div class="text-emerald-400 text-sm mt-1">This month</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Recent Requests -->
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+                <h3 class="font-semibold mb-4 flex items-center gap-2">
+                    <span>Recent Requests</span>
+                </h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between items-center p-3 bg-zinc-950 rounded-xl">
+                        <div>
+                            <div class="font-mono text-xs text-zinc-500">req_9f3k2l</div>
+                            <div class="text-zinc-300">Complex analysis task</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-emerald-400">Groq</div>
+                            <div class="text-xs text-zinc-500">142ms • $0.0021</div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center p-3 bg-zinc-950 rounded-xl">
+                        <div>
+                            <div class="font-mono text-xs text-zinc-500">req_8h2m9p</div>
+                            <div class="text-zinc-300">Code generation</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-emerald-400">Cache Hit</div>
+                            <div class="text-xs text-zinc-500">12ms • $0.0000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Energy Score Breakdown -->
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+                <h3 class="font-semibold mb-4">Latest Route Energy Score</h3>
+                <div class="text-6xl font-mono font-bold text-emerald-400 mb-2">0.18</div>
+                <div class="text-sm text-zinc-400 mb-4">Very low energy = excellent route</div>
+                
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between"><span class="text-zinc-400">Cost weight</span><span class="font-mono">0.32</span></div>
+                    <div class="flex justify-between"><span class="text-zinc-400">Latency weight</span><span class="font-mono">0.28</span></div>
+                    <div class="flex justify-between"><span class="text-zinc-400">Quality weight</span><span class="font-mono">0.41</span></div>
+                    <div class="flex justify-between"><span class="text-zinc-400">Cache bonus</span><span class="font-mono text-emerald-400">-0.15</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-xs text-zinc-500 text-center">
+            Phase 3 Dashboard • Real-time data from OpenMemoryRouter v2.0
+        </div>
+    </div>
+</body>
+</html>
