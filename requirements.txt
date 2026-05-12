@@ -1,0 +1,12 @@
+fastapi==0.115.*
+uvicorn[standard]
+litellm==1.60.*
+redis==5.*
+sentence-transformers
+faiss-cpu
+interpret==0.6.*
+scikit-learn
+pydantic==2.*
+structlog
+prometheus-fastapi-instrumentator
+python-dotenv
