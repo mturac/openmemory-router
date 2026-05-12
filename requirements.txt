@@ -10,3 +10,4 @@ pydantic==2.*
 structlog
 prometheus-fastapi-instrumentator
 python-dotenv
+asyncpg==0.29.*
